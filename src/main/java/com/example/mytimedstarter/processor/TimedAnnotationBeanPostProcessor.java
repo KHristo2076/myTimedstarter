@@ -1,10 +1,9 @@
-package com.example.mytimedstarter.procesor;
+package com.example.mytimedstarter.processor;
 
 import com.example.mytimedstarter.annotation.Timed;
+import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -16,9 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@Slf4j
 public class TimedAnnotationBeanPostProcessor implements BeanPostProcessor {
-    private static final Logger logger = LoggerFactory
-            .getLogger(TimedAnnotationBeanPostProcessor.class);
 
     @Override
     public Object postProcessBeforeInitialization (Object bean, String beanName) throws BeansException {
@@ -36,9 +34,6 @@ public class TimedAnnotationBeanPostProcessor implements BeanPostProcessor {
         return createProxy(bean, timedMethods);
     }
 
-    /**
-     * Находит все методы в бине, аннотированные @Timed.
-     */
     private Map<Method, Timed> findTimedMethods(Object bean) {
         Map<Method, Timed> timedMethods = new HashMap<>();
         for (Method method : bean.getClass().getMethods()) {
@@ -55,7 +50,7 @@ public class TimedAnnotationBeanPostProcessor implements BeanPostProcessor {
      */
     private Object createProxy(Object target, Map<Method, Timed> timedMethods) {
         ProxyFactory proxyFactory = new ProxyFactory(target);
-        proxyFactory.setProxyTargetClass(true); // CGLIB — позволяет проксировать классы без интерфейсов
+        proxyFactory.setProxyTargetClass(true);
         proxyFactory.addAdvice(createMethodInterceptor(timedMethods));
         return proxyFactory.getProxy();
     }
@@ -86,7 +81,8 @@ public class TimedAnnotationBeanPostProcessor implements BeanPostProcessor {
             return invocation.proceed();
         } finally {
             stopWatch.stop();
-            logger.info("Method '{}'{} executed in {} ms",
+            log.info("Method '{} {}'{} executed in {} ms",
+                    method.getDeclaringClass().getSimpleName(),
                     method.getName(),
                     (timed.value().isEmpty() ? "" : " (" + timed.value() + ")"),
                     stopWatch.getTotalTimeMillis());
