@@ -1,6 +1,6 @@
-package com.example.mytimedstarter.configuration;
+package app.configuration;
 
-import com.example.mytimedstarter.processor.TimedAnnotationBeanPostProcessor;
+import app.processor.TimedAnnotationBeanPostProcessor;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.SpringBootTest;

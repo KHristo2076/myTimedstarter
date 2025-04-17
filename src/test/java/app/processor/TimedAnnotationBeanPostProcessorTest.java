@@ -1,6 +1,6 @@
-package com.example.mytimedstarter.processor;
+package app.processor;
 
-import com.example.mytimedstarter.service.MyService;
+import app.service.MyService;
 import org.junit.jupiter.api.Test;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;

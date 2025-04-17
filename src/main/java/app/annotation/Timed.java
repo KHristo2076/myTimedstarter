@@ -1,4 +1,4 @@
-package com.example.mytimedstarter.annotation;
+package app.annotation;
 
 import java.lang.annotation.*;
 

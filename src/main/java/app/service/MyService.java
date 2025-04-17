@@ -1,6 +1,6 @@
-package com.example.mytimedstarter.service;
+package app.service;
 
-import com.example.mytimedstarter.annotation.Timed;
+import app.annotation.Timed;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
